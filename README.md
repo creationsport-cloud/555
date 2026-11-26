@@ -1,5 +1,10 @@
-# Krua Ban Rao Online Orders
+# ครัวบ้านเรา — ระบบสั่งอาหารออนไลน์
 
-Simple Thai restaurant ordering website. GitHub Pages hosts the front end; Supabase stores orders and synchronizes the kitchen screen.
+เว็บไซต์สั่งอาหารอย่างง่าย พร้อมหน้าครัวและฐานข้อมูล Supabase
 
-Setup details are in this repository's README (Thai instructions will be added alongside the app).
+- เว็บ: https://creationsport-cloud.github.io/555/
+- คู่มือตั้งค่าและบัญชีพนักงาน: [SETUP-TH.md](SETUP-TH.md)
+- ตารางและสิทธิ์ฐานข้อมูล: [schema.sql](schema.sql)
+
+การเผยแพร่เว็บทำผ่าน GitHub Actions เมื่อมีการ push ไปยัง `main`.
+
