@@ -44,7 +44,7 @@ main{width:100%;max-width:none;margin:0;padding:clamp(18px,3vw,46px);min-height:
 @media(max-width:1250px){#customer-view .menu{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:900px){#customer-view .layout{grid-template-columns:minmax(0,1fr) 290px}#customer-view .menu{grid-template-columns:repeat(2,minmax(0,1fr))}.food-visual{height:290px}}
 @media(max-width:640px){header{padding:14px 16px;gap:12px}header h1{font-size:20px}header p{font-size:11px}header nav{gap:5px}.nav{padding:8px 10px!important;font-size:12px}main{padding:20px 14px}#customer-view .heading{gap:14px;align-items:flex-start}#customer-view .layout{grid-template-columns:1fr;gap:16px}#customer-view .menu{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.food-visual{height:clamp(225px,66vw,300px)}.food-overlay{padding:17px 12px 13px}.food-copy h3{font-size:16px}.food-copy p{font-size:11px;margin-bottom:11px}.food-price{font-size:22px}#customer-view .add{padding:9px 11px;font-size:12px}#customer-view .cart-panel{position:static}}
-@media(max-width:380px){#customer-view .menu{grid-template-columns:1fr}.food-visual{height:290px}}
+@media(max-width:380px){#customer-view .menu{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.food-visual{height:220px}.food-overlay{padding:12px 9px 10px}.food-copy h3{font-size:14px}.food-copy p{font-size:10px;margin-bottom:9px}.food-order{gap:5px}.food-price{font-size:19px}.food-price small{font-size:10px}#customer-view .add{padding:7px 8px;font-size:10px}.food-category{left:9px;top:9px;max-width:calc(100% - 18px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:5px 8px}}
 
 /* Let a small menu expand to use the available screen width. */
 #customer-view .menu{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
@@ -60,3 +60,5 @@ main{width:100%;max-width:none;margin:0;padding:clamp(18px,3vw,46px);min-height:
 #kitchen-orders .order-item{font-size:17px;font-weight:700;line-height:1.45;color:#26352b;padding:7px 0}
 #kitchen-orders .order-item b{font-size:16px;font-weight:800;color:#26352b}
 @media(max-width:540px){#kitchen-orders .order-item{font-size:16px;padding:6px 0}}
+
+@media(max-width:380px){#customer-view .menu{grid-template-columns:repeat(2,minmax(0,1fr))}}
