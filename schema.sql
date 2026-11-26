@@ -1,6 +1,37 @@
 -- Online restaurant ordering: customers can submit; only allow-listed staff can read/manage orders.
 create schema if not exists private;
 
+create table public.menu_items (
+  id text primary key,
+  name text not null check (char_length(name) between 1 and 80),
+  description text not null default '' check (char_length(description) <= 240),
+  price numeric(10,2) not null check (price > 0 and price <= 100000),
+  category text not null check (char_length(category) between 1 and 40),
+  icon text not null default '🍽️',
+  image_url text,
+  active boolean not null default true,
+  created_at timestamptz not null default now()
+);
+alter table public.menu_items enable row level security;
+revoke all on public.menu_items from public, anon, authenticated;
+create policy "menu items accessible only through kitchen api"
+  on public.menu_items for all to anon, authenticated using (false) with check (false);
+
+insert into public.menu_items (id,name,description,price,category,icon) values
+ ('padthai','ผัดไทยกุ้งสด','เส้นจันทน์ผัดซอสรสกลมกล่อม',89,'จานหลัก','🍜'),
+ ('basil','ข้าวกะเพราไก่','กะเพราไก่เสิร์ฟพร้อมข้าวสวย',69,'จานหลัก','🍳'),
+ ('friedrice','ข้าวผัดหมู','ข้าวผัดหอมกระทะ เสิร์ฟพร้อมแตงกวา',65,'จานหลัก','🍚'),
+ ('tomyum','ต้มยำกุ้ง','ต้มยำรสจัดจ้าน กุ้งสด',120,'จานหลัก','🍲'),
+ ('roll','ปอเปี๊ยะทอด','กรอบนอก ไส้ผักและวุ้นเส้น',55,'ทานเล่น','🥟'),
+ ('tea','ชาไทยเย็น','ชาไทยหอมหวาน เย็นสดชื่น',35,'เครื่องดื่ม','🧋'),
+ ('water','น้ำเปล่า','น้ำดื่มเย็น 600 มล.',15,'เครื่องดื่ม','💧'),
+ ('icecream','ไอศกรีมกะทิ','ไอศกรีมกะทิ เสิร์ฟพร้อมถั่ว',45,'ของหวาน','🍨')
+on conflict (id) do nothing;
+
+insert into storage.buckets (id,name,public,file_size_limit,allowed_mime_types)
+values ('menu-photos','menu-photos',true,2097152,array['image/jpeg','image/png','image/webp'])
+on conflict (id) do update set public=excluded.public,file_size_limit=excluded.file_size_limit,allowed_mime_types=excluded.allowed_mime_types;
+
 create table public.orders (
   id uuid primary key,
   order_number text not null,
