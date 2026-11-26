@@ -55,3 +55,8 @@ main{width:100%;max-width:none;margin:0;padding:clamp(18px,3vw,46px);min-height:
 .kitchen-toolbar>div{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 #sound-toggle[aria-pressed="true"]{background:#e6f2e7;color:#255b33;border-color:#a8cfac}
 @media(max-width:540px){.kitchen-toolbar>div{width:100%}.kitchen-toolbar>div button{flex:1}}
+
+/* Make food names easier to scan in kitchen orders. */
+#kitchen-orders .order-item{font-size:17px;font-weight:700;line-height:1.45;color:#26352b;padding:7px 0}
+#kitchen-orders .order-item b{font-size:16px;font-weight:800;color:#26352b}
+@media(max-width:540px){#kitchen-orders .order-item{font-size:16px;padding:6px 0}}
