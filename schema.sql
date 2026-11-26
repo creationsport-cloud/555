@@ -21,6 +21,7 @@ create table private.order_daily_counters (
 );
 alter table private.order_daily_counters enable row level security;
 revoke all on private.order_daily_counters from public, anon, authenticated;
+create policy "clients cannot access order counters" on private.order_daily_counters for all to anon, authenticated using (false) with check (false);
 
 create or replace function private.assign_daily_order_number()
 returns trigger
