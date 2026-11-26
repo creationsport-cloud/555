@@ -48,3 +48,10 @@ main{width:100%;max-width:none;margin:0;padding:clamp(18px,3vw,46px);min-height:
 
 /* Let a small menu expand to use the available screen width. */
 #customer-view .menu{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+
+/* Kitchen alerts for newly received orders */
+.order.order-new{border:2px solid #d63832;box-shadow:0 0 0 3px #d6383222,0 8px 26px #d6383218}
+.status.new{background:#ffe6e3;color:#a8231e;font-weight:700}
+.kitchen-toolbar>div{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#sound-toggle[aria-pressed="true"]{background:#e6f2e7;color:#255b33;border-color:#a8cfac}
+@media(max-width:540px){.kitchen-toolbar>div{width:100%}.kitchen-toolbar>div button{flex:1}}
