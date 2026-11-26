@@ -62,3 +62,7 @@ main{width:100%;max-width:none;margin:0;padding:clamp(18px,3vw,46px);min-height:
 @media(max-width:540px){#kitchen-orders .order-item{font-size:16px;padding:6px 0}}
 
 @media(max-width:380px){#customer-view .menu{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Enforce two columns on every phone width after desktop auto-fit. */
+@media(max-width:640px){#customer-view .menu{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:380px){#customer-view .menu{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.food-visual{height:220px}.food-overlay{padding:12px 9px 10px}.food-copy h3{font-size:14px}.food-copy p{font-size:10px;margin-bottom:9px}.food-order{gap:5px}.food-price{font-size:19px}.food-price small{font-size:10px}#customer-view .add{padding:7px 8px;font-size:10px}.food-category{left:9px;top:9px;max-width:calc(100% - 18px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:5px 8px}}
