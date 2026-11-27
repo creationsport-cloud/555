@@ -85,3 +85,4 @@ main{width:100%;max-width:none;margin:0;padding:clamp(18px,3vw,46px);min-height:
 .receipt-actions{display:flex;gap:9px;margin-top:13px}
 .receipt-actions .primary{flex:1}
 @media(max-width:640px){.receipt:not(.hidden){grid-template-columns:1fr;margin:18px 0}.receipt-heading{padding:22px}.receipt-order-number{font-size:64px}.receipt-details{padding:20px}.receipt-actions{flex-direction:column}.receipt-actions button{width:100%}}
+.fulfillment-field{display:grid;gap:7px;margin:10px 0 4px;color:#4b5549;font-size:13px}.fulfillment-field select{width:100%;border:1px solid #dfe4dc;border-radius:7px;background:#fff;padding:10px;font:inherit;color:#242923}.fulfillment-badge{display:inline-block;margin:-4px 0 10px;padding:5px 9px;border-radius:15px;background:#e8f1e8;color:#34704a;font-size:12px;font-weight:700}
