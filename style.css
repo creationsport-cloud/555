@@ -187,3 +187,5 @@ header nav{margin-left:auto;flex:0 0 auto}
 .sales-item span{color:#68776c;font-size:14px}
 .sales-item b{color:#214a35;white-space:nowrap}
 @media(max-width:600px){.sales-panel{padding:14px}.sales-controls input{flex:1;min-width:155px}.sales-summary{gap:8px}.sales-metric{padding:14px}.sales-metric strong{font-size:24px}.sales-item{grid-template-columns:minmax(0,1fr) auto;gap:6px 10px}.sales-item span{grid-column:1}.sales-item b{grid-column:2;grid-row:1/3}}
+
+.kitchen-logout{display:block;margin:22px 0 0 auto}
