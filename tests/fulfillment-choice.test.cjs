@@ -6,10 +6,12 @@ const app = fs.readFileSync('app.js', 'utf8');
 const edgeFunction = fs.readFileSync('supabase/functions/kitchen-pin/index.ts', 'utf8');
 const migration = fs.readFileSync('supabase/migrations/20261127010000_add_order_fulfillment_type.sql', 'utf8');
 
-assert.match(html, /<select id="fulfillment-type" required>/);
-assert.match(html, /value="dine_in">ทานที่ร้าน/);
-assert.match(html, /value="takeaway">กลับบ้าน/);
-assert.match(app, /disabled=!count\|\|!fulfillmentType\|\|publicSetupMissing/);
+assert.match(html, /class="fulfillment-options" role="group"/);
+assert.match(html, /data-fulfillment-type="dine_in"[^>]*>ทานที่ร้าน/);
+assert.match(html, /data-fulfillment-type="takeaway"[^>]*>กลับบ้าน/);
+assert.doesNotMatch(html, /<select id="fulfillment-type"/);
+assert.match(app, /disabled=!count\|\|!fulfillmentChoice\|\|publicSetupMissing/);
+assert.match(app, /option\.classList\.toggle\('selected',selected\)/);
 assert.match(app, /kitchenRequest\('place-order',\{items:chosen,fulfillmentType\}\)/);
 assert.match(app, /fulfillmentType:row\.fulfillment_type\|\|null/);
 assert.match(app, /fulfillmentLabel\(o\.fulfillmentType\)/);
