@@ -136,3 +136,16 @@ html,body,button,input,textarea,select{font-family:'Kanit',sans-serif!important}
 body{display:block;padding:0;border:0;align-items:initial;justify-content:initial;gap:normal}
 main{width:100%;max-width:none;margin:0;padding:clamp(18px,3vw,46px);min-height:calc(100vh - 82px)}
 #customer-view{width:100%}
+
+/* Keep the brand left and larger, softly rounded nav buttons right on phones. */
+header{display:flex;flex-direction:row;align-items:center;justify-content:space-between}
+header nav{margin-left:auto;flex:0 0 auto}
+.nav{border-radius:10px;padding:12px 18px;min-height:46px;font-size:15px;font-weight:600}
+@media(max-width:640px){
+ header{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px}
+ header>div{min-width:0;flex:1 1 auto}
+ header h1{font-size:clamp(14px,3.8vw,18px);letter-spacing:.25px;white-space:nowrap}
+ header p{font-size:10px;white-space:nowrap}
+ header nav{display:flex;flex:0 0 auto;gap:6px;margin-left:4px}
+ header .nav{min-height:42px;padding:9px 11px!important;border-radius:9px;font-size:12px;white-space:nowrap}
+}
