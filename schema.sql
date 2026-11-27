@@ -28,6 +28,7 @@ create table public.orders (
   created_at timestamptz not null default now(),
   constraint orders_order_date_order_number_key unique (order_date, order_number),
   status text not null default 'new' check (status in ('new','accepted','preparing','ready')),
+  payment_status text not null default 'pending' check (payment_status in ('pending','paid')),
   items jsonb not null check (jsonb_typeof(items) = 'array' and jsonb_array_length(items) > 0),
   total numeric(10,2) not null check (total >= 0)
 );
