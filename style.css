@@ -81,7 +81,7 @@ main{width:100%;max-width:none;margin:0;padding:clamp(18px,3vw,46px);min-height:
 .receipt-item span b{font-weight:800;color:#183d2b}
 .receipt-total{margin-top:5px;border-bottom:0;font-size:17px}
 .receipt-total strong{font-size:21px;color:#183d2b}
-.payment-qr-wrap{display:grid;justify-items:center;gap:8px;margin:18px auto}.payment-qr-wrap canvas{max-width:100%;height:auto!important;padding:10px;background:#fff;border:1px solid #e1e6df;border-radius:10px}.payment-status{display:inline-flex;align-items:center;border-radius:15px;padding:5px 9px;font-size:12px;font-weight:700;white-space:nowrap}.payment-status.pending{background:#fff3d9;color:#8a6211}.payment-status.paid{background:#e7f4e9;color:#2e6a3c}
+.payment-qr-wrap{display:grid;justify-items:center;gap:8px;margin:18px auto}.payment-qr-wrap canvas,.payment-qr-wrap img{max-width:100%;height:auto!important;padding:10px;background:#fff;border:1px solid #e1e6df;border-radius:10px}.payment-status{display:inline-flex;align-items:center;border-radius:15px;padding:5px 9px;font-size:12px;font-weight:700;white-space:nowrap}.payment-status.pending{background:#fff3d9;color:#8a6211}.payment-status.paid{background:#e7f4e9;color:#2e6a3c}
 .receipt-actions{display:flex;gap:9px;margin-top:13px}
 .receipt-actions .primary{flex:1}
 @media(max-width:640px){.receipt:not(.hidden){grid-template-columns:1fr;margin:18px 0}.receipt-heading{padding:22px}.receipt-order-number{font-size:64px}.receipt-details{padding:20px}.receipt-actions{flex-direction:column}.receipt-actions button{width:100%}}
