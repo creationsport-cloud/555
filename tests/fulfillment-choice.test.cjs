@@ -33,6 +33,7 @@ class Speech {
 const speechContext = {
   kitchenSoundEnabled: true,
   window: {
+    navigator: { userAgent: 'Windows' },
     SpeechSynthesisUtterance: Speech,
     speechSynthesis: {
       getVoices: () => [{ lang: 'th-TH' }],
@@ -54,6 +55,7 @@ let missingVoiceMessage = '';
 const noThaiVoiceContext = {
   kitchenSoundEnabled: true,
   window: {
+    navigator: { userAgent: 'Windows' },
     SpeechSynthesisUtterance: Speech,
     speechSynthesis: { getVoices: () => [], speak: utterance => spoken.push(utterance) }
   },
@@ -63,6 +65,21 @@ vm.runInNewContext(app.slice(speechStart, speechEnd), noThaiVoiceContext);
 noThaiVoiceContext.speakKitchenOrder({ number: '0048', fulfillmentType: 'dine_in', items: [{ name: 'ข้าวผัดไก่', qty: 1 }] });
 assert.equal(spoken.length, 1, 'do not read Thai text with a non-Thai fallback voice');
 assert.match(missingVoiceMessage, /ไม่พบเสียงภาษาไทย/);
+let androidStatus = '';
+const androidSpeechContext = {
+  kitchenSoundEnabled: true,
+  window: {
+    navigator: { userAgent: 'Mozilla/5.0 (Linux; Android 14) Chrome/130 Mobile' },
+    SpeechSynthesisUtterance: Speech,
+    speechSynthesis: { getVoices: () => [], speak: utterance => spoken.push(utterance) }
+  },
+  document: { querySelector: () => ({ set textContent(value) { androidStatus = value; }, classList: { toggle() {} } }) }
+};
+vm.runInNewContext(app.slice(speechStart, speechEnd), androidSpeechContext);
+androidSpeechContext.speakKitchenOrder({ number: '0049', fulfillmentType: 'dine_in', items: [{ name: 'ข้าวผัดไก่', qty: 1 }] });
+assert.equal(spoken.length, 2, 'use Android default TTS when it does not report voices yet');
+assert.equal(spoken[1].lang, 'th-TH');
+assert.match(androidStatus, /Android จะใช้เสียงพูดของเครื่อง/);
 assert.match(edgeFunction, /body\.fulfillmentType !== "dine_in" && body\.fulfillmentType !== "takeaway"/);
 assert.match(edgeFunction, /fulfillment_type: body\.fulfillmentType/);
 assert.match(migration, /fulfillment_type in \('dine_in', 'takeaway'\)/);
