@@ -52,8 +52,11 @@ assert.ok(!app.includes('config.promptPayId'), 'old PromptPay destination is no 
 
 const html = fs.readFileSync('index.html', 'utf8');
 const css = fs.readFileSync('style.css', 'utf8');
-assert.ok(html.includes('app.js?v=25'), 'browser cache is bumped for the latest checkout change');
-assert.ok(html.includes('style.css?v=22'), 'cropped QR styling uses a fresh browser cache');
+const cartPanel = html.match(/<aside class="panel cart-panel">([\s\S]*?)<\/aside>/)?.[1] || '';
+assert.ok(cartPanel.indexOf('id="place-order"') < cartPanel.indexOf('id="receipt"'), 'checkout receipt appears under the order confirmation button in the right cart panel');
+assert.ok(html.includes('app.js?v=27'), 'browser cache is bumped for the latest checkout change');
+assert.ok(html.includes('style.css?v=24'), 'cropped QR styling uses a fresh browser cache');
+assert.match(css, /#customer-view \.cart-panel \.receipt:not\(\.hidden\)\{display:block/);
 assert.match(css, /#payment-qr img\{[^}]*width:min\(80vw,280px\)[^}]*object-fit:contain/);
 assert.ok(!html.includes('qrcode.min.js'), 'unused external QR generator is removed');
 

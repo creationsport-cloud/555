@@ -12,6 +12,10 @@ const orderRates = new Map<string, { count: number; started: number }>();
 const WINDOW_MS = 15 * 60 * 1000;
 const MAX_ATTEMPTS = 5;
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
+const ORDER_ADD_ONS = {
+  fried_egg: { name: "ไข่ดาว", price: 10 },
+  omelet: { name: "ไข่เจียว", price: 10 },
+};
 
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), { status, headers: cors });
@@ -34,6 +38,19 @@ function normalizeOrderNote(value: unknown): string | null {
   if (typeof value !== "string") return null;
   const note = value.trim();
   return Array.from(note).length <= 500 ? note : null;
+}
+function normalizeOrderAddOns(value: unknown): { name: string; price: number; qty: number }[] | null {
+  if (value === undefined) return [];
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  const counts = value as Record<string, unknown>;
+  if (Object.keys(counts).some(key => !Object.prototype.hasOwnProperty.call(ORDER_ADD_ONS, key))) return null;
+  const extras: { name: string; price: number; qty: number }[] = [];
+  for (const [key, addOn] of Object.entries(ORDER_ADD_ONS)) {
+    const qty = counts[key] ?? 0;
+    if (typeof qty !== "number" || !Number.isInteger(qty) || qty < 0 || qty > 50) return null;
+    if (qty > 0) extras.push({ ...addOn, qty });
+  }
+  return extras;
 }
 
 Deno.serve(async (req: Request) => {
@@ -84,13 +101,14 @@ Deno.serve(async (req: Request) => {
     }
     const note = normalizeOrderNote(body.note);
     if (note === null) return json({ error: "หมายเหตุต้องมีความยาวไม่เกิน 500 ตัวอักษร" }, 400);
-    const requested = body.items as { id?: unknown; qty?: unknown }[];
+    const requested = body.items as { id?: unknown; qty?: unknown; extras?: unknown }[];
     const ids: string[] = [];
     for (const item of requested) {
       if (!item || typeof item.id !== "string" || !/^[a-z0-9-]{1,80}$/i.test(item.id) ||
           typeof item.qty !== "number" || !Number.isInteger(item.qty) || item.qty < 1 || item.qty > 50) {
         return json({ error: "รายการอาหารไม่ถูกต้อง" }, 400);
       }
+      if (normalizeOrderAddOns(item.extras) === null) return json({ error: "จำนวนไข่เพิ่มไม่ถูกต้อง" }, 400);
       ids.push(item.id);
     }
     if (new Set(ids).size !== ids.length) return json({ error: "รายการอาหารซ้ำกัน" }, 400);
@@ -109,9 +127,9 @@ Deno.serve(async (req: Request) => {
       const byId = new Map(menu.map(item => [item.id, item]));
       const items = requested.map(item => {
         const food = byId.get(item.id as string)!;
-        return { name: food.name, price: Number(food.price), qty: item.qty as number };
+        return { name: food.name, price: Number(food.price), qty: item.qty as number, extras: normalizeOrderAddOns(item.extras)! };
       });
-      const total = items.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const total = items.reduce((sum, item) => sum + item.price * item.qty + item.extras.reduce((extraSum, extra) => extraSum + extra.price * extra.qty, 0), 0);
       const response = await fetch(url + "/rest/v1/orders?select=order_number,total,created_at", {
         method: "POST",
         headers: adminHeaders(secretKey, { "Content-Type": "application/json", Prefer: "return=representation" }),

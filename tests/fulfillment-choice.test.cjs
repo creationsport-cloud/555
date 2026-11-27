@@ -20,7 +20,7 @@ assert.match(app, /<div class="fulfillment-badge">\$\{escapeHtml\(fulfillmentLab
 assert.match(app, /function speakKitchenOrder\(order\)/);
 assert.match(app, /new window\.SpeechSynthesisUtterance/);
 assert.match(app, /incoming\.forEach\(speakKitchenOrder\)/);
-assert.match(app, /order\.items\.map\(item=>item\.name\+' '\+item\.qty\+' '\+unit\)/);
+assert.match(app, /order\.items\.map\(item=>item\.name\+' '\+item\.qty\+' '\+unit\+\(item\.extras\?\.length/);
 
 const speechStart = app.indexOf('function updateThaiSpeechStatus()');
 const speechEnd = app.indexOf('\nasync function pullOrders', speechStart);
