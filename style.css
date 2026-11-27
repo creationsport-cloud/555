@@ -168,3 +168,22 @@ header nav{margin-left:auto;flex:0 0 auto}
 .completed-sound-toggle{border:1px solid #789381;border-radius:9px;background:#244b39;color:#f5fff6;padding:10px 14px;min-height:42px;font:inherit;font-size:13px;font-weight:600;white-space:nowrap;cursor:pointer}
 .completed-sound-toggle[aria-pressed="true"]{background:#e8bd56;border-color:#e8bd56;color:#20372a}
 @media(max-width:640px){.completed-order-announcements{order:3;flex:1 0 100%;justify-content:space-between;gap:8px;padding:9px 0 0;border-top:1px solid #53715c}.completed-order-title{font-size:11px}.ready-order-list{flex:1;overflow-x:auto}.ready-order-chip{min-width:52px;padding:7px 8px;font-size:17px}.completed-sound-toggle{min-height:38px;padding:7px 9px;font-size:11px}header{flex-wrap:wrap}}
+
+
+/* Daily sales report */
+.sales-panel{padding:20px}
+.sales-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.sales-controls label{font-weight:600;color:#264637}
+.sales-controls input{min-height:42px;padding:8px 12px;border:1px solid #d8dfd7;border-radius:9px;font:inherit;color:#263b2f;background:#fff}
+.sales-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:22px}
+.sales-metric{display:flex;flex-direction:column;gap:8px;padding:18px;border:1px solid #e2e8e1;border-radius:12px;background:#f7f9f5}
+.sales-metric span,.sales-list-heading span{color:#69776b;font-size:14px}
+.sales-metric strong{color:#214a35;font-size:30px;line-height:1.1}
+.sales-list-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid #e6e9e3}
+.sales-list-heading h3{margin:0;font-size:18px}
+.sales-items{display:grid;gap:8px;margin-top:12px}
+.sales-item{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:16px;padding:13px 14px;border:1px solid #e5e9e3;border-radius:10px;background:#fff}
+.sales-item strong{color:#273e30}
+.sales-item span{color:#68776c;font-size:14px}
+.sales-item b{color:#214a35;white-space:nowrap}
+@media(max-width:600px){.sales-panel{padding:14px}.sales-controls input{flex:1;min-width:155px}.sales-summary{gap:8px}.sales-metric{padding:14px}.sales-metric strong{font-size:24px}.sales-item{grid-template-columns:minmax(0,1fr) auto;gap:6px 10px}.sales-item span{grid-column:1}.sales-item b{grid-column:2;grid-row:1/3}}
