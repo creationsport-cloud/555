@@ -149,3 +149,12 @@ header nav{margin-left:auto;flex:0 0 auto}
  header nav{display:flex;flex:0 0 auto;gap:6px;margin-left:4px}
  header .nav{min-height:42px;padding:9px 11px!important;border-radius:9px;font-size:12px;white-space:nowrap}
 }
+
+/* Egg add-ons as simple mutually exclusive choice buttons. */
+.cart-addons{display:flex;gap:8px;margin-top:8px}
+.cart-addon-choice{flex:1;min-width:0;display:flex;justify-content:space-between;align-items:center;gap:4px;padding:9px 10px;border:1px solid #dfe4dc;border-radius:9px;background:#fff;color:#3e4d40;font:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.cart-addon-choice small{color:#81877e;font-size:11px;font-weight:500;white-space:nowrap}
+.cart-addon-choice:hover{border-color:#8cac91;background:#f5f9f3}
+.cart-addon-choice.selected{background:#e8f3e9;border-color:#34704a;color:#245b35;box-shadow:inset 0 0 0 1px #34704a}
+.cart-addon-choice.selected small{color:#34704a}
+@media(max-width:380px){.cart-addon-choice{padding:8px 7px;font-size:12px}.cart-addon-choice small{font-size:10px}}
