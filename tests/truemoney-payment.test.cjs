@@ -33,7 +33,7 @@ const context = {
 vm.runInNewContext("const money=n=>'฿'+n.toLocaleString('th-TH');" + helpers + ";globalThis.api={paymentQrImage,paymentInstructions,renderPaymentQr}", context);
 const { paymentQrImage, paymentInstructions, renderPaymentQr } = context.api;
 
-assert.equal(paymentQrImage, 'truemoney-merchant-qr.jpg');
+assert.equal(paymentQrImage, 'truemoney-merchant-qr-cropped.png');
 assert.ok(fs.existsSync(paymentQrImage), 'provided merchant QR image is bundled');
 assert.equal(paymentInstructions(123.45), 'เปิดแอป TrueMoney สแกน QR แล้วกรอกยอด ฿123.45 ตรวจสอบชื่อผู้รับก่อนกดยืนยันชำระเงิน');
 
@@ -52,9 +52,9 @@ assert.ok(!app.includes('config.promptPayId'), 'old PromptPay destination is no 
 
 const html = fs.readFileSync('index.html', 'utf8');
 const css = fs.readFileSync('style.css', 'utf8');
-assert.ok(html.includes('app.js?v=24'), 'browser cache is bumped for the latest checkout change');
-assert.ok(html.includes('style.css?v=21'), 'cropped QR styling uses a fresh browser cache');
-assert.match(css, /#payment-qr img\{[^}]*object-fit:none;object-position:50% 72%/);
+assert.ok(html.includes('app.js?v=25'), 'browser cache is bumped for the latest checkout change');
+assert.ok(html.includes('style.css?v=22'), 'cropped QR styling uses a fresh browser cache');
+assert.match(css, /#payment-qr img\{[^}]*width:min\(80vw,280px\)[^}]*object-fit:contain/);
 assert.ok(!html.includes('qrcode.min.js'), 'unused external QR generator is removed');
 
 console.log('TrueMoney checkout tests passed');
