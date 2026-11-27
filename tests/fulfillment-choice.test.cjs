@@ -1,5 +1,6 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const vm = require('node:vm');
 
 const html = fs.readFileSync('index.html', 'utf8');
 const app = fs.readFileSync('app.js', 'utf8');
@@ -16,6 +17,37 @@ assert.match(app, /kitchenRequest\('place-order',\{items:chosen,fulfillmentType\
 assert.match(app, /fulfillmentType:row\.fulfillment_type\|\|null/);
 assert.match(app, /fulfillmentLabel\(o\.fulfillmentType\)/);
 assert.match(app, /<div class="fulfillment-badge">\$\{escapeHtml\(fulfillmentLabel\(o\.fulfillmentType\)\)\}<\/div>/);
+assert.match(app, /function speakKitchenOrder\(order\)/);
+assert.match(app, /new window\.SpeechSynthesisUtterance/);
+assert.match(app, /incoming\.forEach\(speakKitchenOrder\)/);
+assert.match(app, /order\.items\.map\(item=>item\.name\+' '\+item\.qty\+' '\+unit\)/);
+
+const speechStart = app.indexOf('function speakKitchenOrder(order)');
+const speechEnd = app.indexOf('\nasync function pullOrders', speechStart);
+assert.notEqual(speechStart, -1);
+assert.notEqual(speechEnd, -1);
+const spoken = [];
+class Speech {
+  constructor(text) { this.text = text; }
+}
+const speechContext = {
+  kitchenSoundEnabled: true,
+  window: {
+    SpeechSynthesisUtterance: Speech,
+    speechSynthesis: {
+      getVoices: () => [{ lang: 'th-TH' }],
+      speak: utterance => spoken.push(utterance)
+    }
+  }
+};
+vm.runInNewContext(app.slice(speechStart, speechEnd), speechContext);
+speechContext.speakKitchenOrder({
+  number: '0047',
+  fulfillmentType: 'takeaway',
+  items: [{ name: 'ข้าวผัดไก่', qty: 1 }]
+});
+assert.equal(spoken[0].text, 'ออร์เดอร์ใหม่ หมายเลข 0047 ข้าวผัดไก่ 1 กล่อง');
+assert.equal(spoken[0].lang, 'th-TH');
 assert.match(edgeFunction, /body\.fulfillmentType !== "dine_in" && body\.fulfillmentType !== "takeaway"/);
 assert.match(edgeFunction, /fulfillment_type: body\.fulfillmentType/);
 assert.match(migration, /fulfillment_type in \('dine_in', 'takeaway'\)/);
