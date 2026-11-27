@@ -29,6 +29,12 @@ function getAdminConfig() {
 function adminHeaders(secretKey: string, extra: Record<string, string> = {}) {
   return { apikey: secretKey, Authorization: "Bearer " + secretKey, ...extra };
 }
+function normalizeOrderNote(value: unknown): string | null {
+  if (value === undefined) return "";
+  if (typeof value !== "string") return null;
+  const note = value.trim();
+  return Array.from(note).length <= 500 ? note : null;
+}
 
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
@@ -39,7 +45,7 @@ Deno.serve(async (req: Request) => {
   }
 
   let body: {
-    pin?: unknown; action?: unknown; id?: unknown; status?: unknown; items?: unknown; fulfillmentType?: unknown;
+    pin?: unknown; action?: unknown; id?: unknown; status?: unknown; items?: unknown; fulfillmentType?: unknown; note?: unknown;
     name?: unknown; description?: unknown; price?: unknown; category?: unknown; active?: unknown;
     imageBase64?: unknown; imageMime?: unknown;
   };
@@ -76,6 +82,8 @@ Deno.serve(async (req: Request) => {
     if (body.fulfillmentType !== "dine_in" && body.fulfillmentType !== "takeaway") {
       return json({ error: "กรุณาเลือกทานที่ร้านหรือกลับบ้าน" }, 400);
     }
+    const note = normalizeOrderNote(body.note);
+    if (note === null) return json({ error: "หมายเหตุต้องมีความยาวไม่เกิน 500 ตัวอักษร" }, 400);
     const requested = body.items as { id?: unknown; qty?: unknown }[];
     const ids: string[] = [];
     for (const item of requested) {
@@ -107,7 +115,7 @@ Deno.serve(async (req: Request) => {
       const response = await fetch(url + "/rest/v1/orders?select=order_number,total,created_at", {
         method: "POST",
         headers: adminHeaders(secretKey, { "Content-Type": "application/json", Prefer: "return=representation" }),
-        body: JSON.stringify({ id: crypto.randomUUID(), items, total, payment_status: "pending", fulfillment_type: body.fulfillmentType }),
+        body: JSON.stringify({ id: crypto.randomUUID(), items, total, payment_status: "pending", fulfillment_type: body.fulfillmentType, note }),
       });
       if (!response.ok) return json({ error: "บันทึกออร์เดอร์ไม่สำเร็จ" }, 502);
       const created = await response.json() as { order_number: string; total: number; created_at: string }[];
@@ -298,3 +306,4 @@ Deno.serve(async (req: Request) => {
     return json({ error: "เชื่อมต่อฐานข้อมูลไม่สำเร็จ" }, 502);
   }
 });
+

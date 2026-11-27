@@ -13,7 +13,7 @@ assert.match(html, /data-fulfillment-type="takeaway"[^>]*>กลับบ้า�
 assert.doesNotMatch(html, /<select id="fulfillment-type"/);
 assert.match(app, /disabled=!count\|\|!fulfillmentChoice\|\|publicSetupMissing/);
 assert.match(app, /option\.classList\.toggle\('selected',selected\)/);
-assert.match(app, /kitchenRequest\('place-order',\{items:chosen,fulfillmentType\}\)/);
+assert.match(app, /kitchenRequest\('place-order',\{items:chosen,fulfillmentType,note:orderNote\}\)/);
 assert.match(app, /fulfillmentType:row\.fulfillment_type\|\|null/);
 assert.match(app, /fulfillmentLabel\(o\.fulfillmentType\)/);
 assert.match(app, /<div class="fulfillment-badge">\$\{escapeHtml\(fulfillmentLabel\(o\.fulfillmentType\)\)\}<\/div>/);

@@ -29,6 +29,7 @@ create table public.orders (
   constraint orders_order_date_order_number_key unique (order_date, order_number),
   status text not null default 'new' check (status in ('new','accepted','preparing','ready')),
   payment_status text not null default 'pending' check (payment_status in ('pending','paid')),
+  note text not null default '' check (char_length(note) <= 500),
   items jsonb not null check (jsonb_typeof(items) = 'array' and jsonb_array_length(items) > 0),
   total numeric(10,2) not null check (total >= 0)
 );
@@ -109,4 +110,5 @@ create policy "staff can clear completed orders" on public.orders
   using (exists (select 1 from private.staff_members where user_id = (select auth.uid())));
 
 alter publication supabase_realtime add table public.orders;
+
 

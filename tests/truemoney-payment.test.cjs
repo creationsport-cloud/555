@@ -52,8 +52,8 @@ assert.ok(!app.includes('config.promptPayId'), 'old PromptPay destination is no 
 
 const html = fs.readFileSync('index.html', 'utf8');
 const css = fs.readFileSync('style.css', 'utf8');
-assert.ok(html.includes('app.js?v=23'), 'browser cache is bumped for the latest checkout change');
-assert.ok(html.includes('style.css?v=20'), 'cropped QR styling uses a fresh browser cache');
+assert.ok(html.includes('app.js?v=24'), 'browser cache is bumped for the latest checkout change');
+assert.ok(html.includes('style.css?v=21'), 'cropped QR styling uses a fresh browser cache');
 assert.match(css, /#payment-qr img\{[^}]*object-fit:none;object-position:50% 72%/);
 assert.ok(!html.includes('qrcode.min.js'), 'unused external QR generator is removed');
 
