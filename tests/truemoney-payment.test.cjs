@@ -51,7 +51,7 @@ assert.ok(!app.includes('promptPayPayload'), 'PromptPay payload generation has b
 assert.ok(!app.includes('config.promptPayId'), 'old PromptPay destination is no longer used');
 
 const html = fs.readFileSync('index.html', 'utf8');
-assert.ok(html.includes('app.js?v=20'), 'browser cache is bumped for the latest checkout change');
+assert.ok(html.includes('app.js?v=21'), 'browser cache is bumped for the latest checkout change');
 assert.ok(!html.includes('qrcode.min.js'), 'unused external QR generator is removed');
 
 console.log('TrueMoney checkout tests passed');
