@@ -15,6 +15,7 @@ assert.match(app, /option\.classList\.toggle\('selected',selected\)/);
 assert.match(app, /kitchenRequest\('place-order',\{items:chosen,fulfillmentType\}\)/);
 assert.match(app, /fulfillmentType:row\.fulfillment_type\|\|null/);
 assert.match(app, /fulfillmentLabel\(o\.fulfillmentType\)/);
+assert.match(app, /<div class="fulfillment-badge">\$\{escapeHtml\(fulfillmentLabel\(o\.fulfillmentType\)\)\}<\/div>/);
 assert.match(edgeFunction, /body\.fulfillmentType !== "dine_in" && body\.fulfillmentType !== "takeaway"/);
 assert.match(edgeFunction, /fulfillment_type: body\.fulfillmentType/);
 assert.match(migration, /fulfillment_type in \('dine_in', 'takeaway'\)/);
